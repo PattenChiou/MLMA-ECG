@@ -1,0 +1,17 @@
+scipy
+matplotlib
+numpy
+py-ecg-detectors
+pandas
+# torch
+# nvidia-cudnn-cu11
+tqdm
+# torchaudio
+rtpt
+# torch-optimizer
+airspeed
+ninja
+# pytorch-ranger
+setproctitle
+fvcore
+typing-extensions
