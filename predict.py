@@ -190,6 +190,8 @@ def _predict(network: nn.Module, dataset: DataLoader, ecg_names: List[str],
         else:
             predictions.append((name, _get_prediction_name(prediction=prediction_argmax, two_classes=two_classes)))
     # Draw model structure
+    for param in network.named_parameters():
+        print(param[0])
     dot = make_dot(prediction, params=dict(list(network.named_parameters()) + [("x", ecg_lead)]))
     dot.format = "png"
     dot.directory = "."
