@@ -7,7 +7,6 @@ import torch_optimizer
 import numpy as np
 import os
 from tqdm import tqdm
-from torchviz import make_dot
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -190,12 +189,10 @@ def _predict(network: nn.Module, dataset: DataLoader, ecg_names: List[str],
         else:
             predictions.append((name, _get_prediction_name(prediction=prediction_argmax, two_classes=two_classes)))
     # Draw model structure
-    for param in network.named_parameters():
-        print(param[0])
-    dot = make_dot(prediction, params=dict(list(network.named_parameters()) + [("x", ecg_lead)]))
-    dot.format = "png"
-    dot.directory = "."
-    dot.render("model_architecture")
+    ecg_lead_example = torch.randn(1, 80, 256)  # 代表模型輸入的範例數據
+    spectrogram_example = torch.randn(1, 1, 563, 33)  # 另一部分輸入數據
+    network_example = network.cpu()
+    torch.onnx.export(network_example, (ecg_lead_example, spectrogram_example), "model.onnx")
     # Close progress bar
     progress_bar.close()
     return predictions
